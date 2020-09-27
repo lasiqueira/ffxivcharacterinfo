@@ -1,6 +1,8 @@
 package com.lasiqueira.ffxivcharacterinfo.api.dto;
 
 public class CharacterDataResponse {
+    //TODO define important attributes
+
     private String name;
 
     public String getName() {

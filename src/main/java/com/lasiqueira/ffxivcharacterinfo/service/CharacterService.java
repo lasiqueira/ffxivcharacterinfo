@@ -9,15 +9,16 @@ import java.io.IOException;
 
 @Service
 public class CharacterService {
-    private XivApi xivApi;
+    private  final XivApi xivApi;
+    private final CharacterConverter characterConverter;
 
-    public CharacterService(XivApi xivApi) {
+    public CharacterService(XivApi xivApi, CharacterConverter characterConverter) {
         this.xivApi = xivApi;
+        this.characterConverter = characterConverter;
     }
 
     public Character getCharacterData(String id) throws IOException {
         CharacterData characterData = xivApi.getCharacterData(id).execute().body();
-        //TODO convert to Character object
-        return null;
+        return characterConverter.convert(characterData);
     }
 }
