@@ -1,4 +1,4 @@
-package com.lasiqueira.ffxivcharacterinfo.infrastructure.external.configuration;
+package com.lasiqueira.ffxivcharacterinfo.configuration;
 
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.client.XivApi;
 import okhttp3.OkHttpClient;
@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import retrofit2.Retrofit;
+import retrofit2.converter.jackson.JacksonConverterFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -24,6 +25,7 @@ public class RetrofitConfiguration {
     public XivApi getXivApi(@Value("${xivapi.url}") String url, OkHttpClient okHttpClient){
         Retrofit retrofit = new Retrofit.Builder()
                 .baseUrl(url)
+                .addConverterFactory(JacksonConverterFactory.create())
                 .client(okHttpClient)
                 .build();
 
