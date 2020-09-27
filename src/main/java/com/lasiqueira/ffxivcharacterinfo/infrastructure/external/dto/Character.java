@@ -65,7 +65,7 @@ public class Character {
     @JsonProperty("GuardianDeity")
     private GuardianDeity guardianDeity;
     @JsonProperty("ID")
-    private Integer iD;
+    private Long iD;
     @JsonProperty("Lang")
     private Object lang;
     @JsonProperty("Name")
@@ -205,12 +205,12 @@ public class Character {
     }
 
     @JsonProperty("ID")
-    public Integer getID() {
+    public Long getID() {
         return iD;
     }
 
     @JsonProperty("ID")
-    public void setID(Integer iD) {
+    public void setID(Long iD) {
         this.iD = iD;
     }
 

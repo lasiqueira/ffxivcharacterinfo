@@ -17,7 +17,7 @@ public class CharacterService {
         this.characterConverter = characterConverter;
     }
 
-    public Character getCharacterData(String id) throws IOException {
+    public Character getCharacterData(Long id) throws IOException {
         CharacterData characterData = xivApi.getCharacterData(id).execute().body();
         return characterConverter.convert(characterData);
     }

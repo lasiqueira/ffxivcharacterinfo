@@ -8,5 +8,5 @@ import retrofit2.http.Path;
 
 public interface XivApi {
     @GET("character/{id}?data=CJ&extended=1")
-    Call<CharacterData> getCharacterData(@Path("id") final String id);
+    Call<CharacterData> getCharacterData(@Path("id") final Long id);
 }
