@@ -52,9 +52,6 @@ public class CharacterConverter {
         return classJob;
     }
 
-
-
-
     private Race convertRace(com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.Character character) {
         Race race = new Race();
         race.setName(character.getRace().getName());
