@@ -17,6 +17,14 @@ to build and run this project.
 ## Running
 `gradle bootRun`
 
+##Docker
+To run the application in a docker container, after building run the following commands:
+
+`gradle bootBuildImage`
+
+
+`docker run -it -p 8080:8080 ffxivcharacterinfo:0.0.1-SNAPSHOT`
+
 ## Documentation
 (default: http://localhost:8080)  
 server:port/swagger-ui.html
