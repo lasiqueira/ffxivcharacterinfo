@@ -28,6 +28,8 @@ public class ApiAdapterTest {
     Call<CharacterData> call;
     private CharacterData characterData;
 
+    private static final long CHARACTER_ID = 1234l;
+
     @BeforeEach
     public void setup(){
         this.xivApi = Mockito.mock(XivApi.class);
@@ -42,7 +44,7 @@ public class ApiAdapterTest {
     public void getCharacterDataTest() throws IOException {
         when(xivApi.getCharacterData(Mockito.anyLong())).thenReturn(call);
         when(call.execute()).thenReturn(Response.success(characterData));
-        CharacterData response = apiAdapter.getCharacterData(1234l);
+        CharacterData response = apiAdapter.getCharacterData(CHARACTER_ID);
         assertNotNull(response);
     }
 
@@ -51,7 +53,7 @@ public class ApiAdapterTest {
     public void getCharacterDataNotFoundTest() throws IOException {
         when(xivApi.getCharacterData(Mockito.anyLong())).thenReturn(call);
         when(call.execute()).thenReturn(Response.error(HttpStatus.NOT_FOUND.value(), ResponseBody.create(MediaType.get(org.springframework.http.MediaType.APPLICATION_JSON_VALUE), "")));
-        assertThrows(ResponseStatusException.class, () -> apiAdapter.getCharacterData(1234l));
+        assertThrows(ResponseStatusException.class, () -> apiAdapter.getCharacterData(CHARACTER_ID));
     }
 
     @Test
@@ -59,7 +61,7 @@ public class ApiAdapterTest {
     public void getCharacterDataBadRequestTest() throws IOException {
         when(xivApi.getCharacterData(Mockito.anyLong())).thenReturn(call);
         when(call.execute()).thenReturn(Response.error(HttpStatus.BAD_REQUEST.value(), ResponseBody.create(MediaType.get(org.springframework.http.MediaType.APPLICATION_JSON_VALUE), "")));
-        assertThrows(ResponseStatusException.class, () -> apiAdapter.getCharacterData(1234l));
+        assertThrows(ResponseStatusException.class, () -> apiAdapter.getCharacterData(CHARACTER_ID));
     }
 
     @Test
@@ -67,7 +69,15 @@ public class ApiAdapterTest {
     public void getCharacterDataInternalServerErrorTest() throws IOException {
         when(xivApi.getCharacterData(Mockito.anyLong())).thenReturn(call);
         when(call.execute()).thenReturn(Response.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), ResponseBody.create(MediaType.get(org.springframework.http.MediaType.APPLICATION_JSON_VALUE), "")));
-        assertThrows(ResponseStatusException.class, () -> apiAdapter.getCharacterData(1234l));
+        assertThrows(ResponseStatusException.class, () -> apiAdapter.getCharacterData(CHARACTER_ID));
+    }
+
+    @Test
+    @DisplayName("Test get character data from 3rd party api with IO exception")
+    public void getCharacterDataIOExceptionTest() throws IOException {
+        when(xivApi.getCharacterData(Mockito.anyLong())).thenReturn(call);
+        when(call.execute()).thenThrow(new IOException());
+        assertThrows(IOException.class, () -> apiAdapter.getCharacterData(CHARACTER_ID));
     }
 
 
