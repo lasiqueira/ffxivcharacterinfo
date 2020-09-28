@@ -1,6 +1,8 @@
 package com.lasiqueira.ffxivcharacterinfo.infrastructure.external.client;
 
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.CharacterData;
+import org.springframework.cache.annotation.CacheConfig;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;
@@ -8,19 +10,20 @@ import retrofit2.Response;
 import java.io.IOException;
 
 @Component
+@CacheConfig(cacheNames = {"character"})
 public class ApiAdapter implements ApiPort{
-    private XivApi xivApi;
+    private final XivApi xivApi;
 
     public ApiAdapter(XivApi xivApi) {
         this.xivApi = xivApi;
     }
 
     @Override
+    @Cacheable(key = "#id")
     public CharacterData getCharacterData(Long id) throws IOException, ResponseStatusException {
         Response<CharacterData> response = xivApi.getCharacterData(id).execute();
         handleResponseCode(response);
         return response.body();
-
     }
     private void handleResponseCode(Response response) throws ResponseStatusException{
         if(response.code() != HttpStatus.OK.value()) {
