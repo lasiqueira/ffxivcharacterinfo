@@ -2,7 +2,7 @@ package com.lasiqueira.ffxivcharacterinfo.infrastructure.external;
 
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.client.ApiAdapter;
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.client.XivApi;
-import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.CharacterData;
+import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.CharacterData;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;

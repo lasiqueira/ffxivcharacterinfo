@@ -1,9 +1,9 @@
 package com.lasiqueira.ffxivcharacterinfo.service;
 
-import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.ActiveClassJob;
-import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.CharacterData;
-import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.Company;
-import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.Rank;
+import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.ActiveClassJob;
+import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.CharacterData;
+import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.Company;
+import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.Rank;
 import com.lasiqueira.ffxivcharacterinfo.model.*;
 import com.lasiqueira.ffxivcharacterinfo.model.Character;
 import org.springframework.stereotype.Component;
@@ -32,7 +32,7 @@ public class CharacterConverter {
        return character;
     }
 
-    private List<ClassJob> convertClasses(List<com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.ClassJob> classJobs) {
+    private List<ClassJob> convertClasses(List<com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.ClassJob> classJobs) {
         List<ClassJob> classJobList = new ArrayList<>();
         classJobs.forEach(classJob ->{
                 ClassJob classJobNew = new ClassJob();
@@ -55,14 +55,14 @@ public class CharacterConverter {
         return classJob;
     }
 
-    private Race convertRace(com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.Character character) {
+    private Race convertRace(com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.Character character) {
         Race race = new Race();
         race.setName(character.getRace().getName());
         race.setTribe(character.getTribe().getName());
         return race;
     }
 
-    private GrandCompany convertGrandCompany(com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.GrandCompany grandCompany) {
+    private GrandCompany convertGrandCompany(com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.GrandCompany grandCompany) {
         GrandCompany grandComp = new GrandCompany();
         grandComp.setName(Optional.ofNullable(grandCompany.getCompany()).orElse(new Company()).getName());
         grandComp.setRank(Optional.ofNullable(grandCompany.getRank()).orElse(new Rank()).getName());

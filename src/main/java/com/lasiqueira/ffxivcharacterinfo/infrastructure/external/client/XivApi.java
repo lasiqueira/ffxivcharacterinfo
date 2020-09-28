@@ -1,6 +1,6 @@
 package com.lasiqueira.ffxivcharacterinfo.infrastructure.external.client;
 
-import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.CharacterData;
+import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.CharacterData;
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;

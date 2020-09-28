@@ -1,6 +1,6 @@
 package com.lasiqueira.ffxivcharacterinfo.infrastructure.external.client;
 
-import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.CharacterData;
+import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.CharacterData;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.server.ResponseStatusException;

@@ -1,6 +1,6 @@
 package com.lasiqueira.ffxivcharacterinfo.service;
 
-import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.CharacterData;
+import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.CharacterData;
 import com.lasiqueira.ffxivcharacterinfo.model.Character;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
 import org.junit.jupiter.api.BeforeEach;
