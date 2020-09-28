@@ -1,11 +1,11 @@
 package com.lasiqueira.ffxivcharacterinfo.api.exception;
 
-public class CharacterError {
-    public CharacterError(String errorMsg) {
+public class APIError {
+    public APIError(String errorMsg) {
         this.errorMsg = errorMsg;
     }
 
-    private String errorMsg
+    private String errorMsg;
     public String getErrorMsg() {
         return errorMsg;
     }

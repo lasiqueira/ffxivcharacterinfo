@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
 
@@ -23,7 +24,7 @@ public class CharacterController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<CharacterResponseDTO> getCharacterData(@PathVariable Long id) throws IOException {
+    public ResponseEntity<CharacterResponseDTO> getCharacterData(@PathVariable Long id) throws IOException, ResponseStatusException {
         return ResponseEntity.ok(mapperFacade.map(characterService.getCharacterData(id), CharacterResponseDTO.class));
     }
 }
