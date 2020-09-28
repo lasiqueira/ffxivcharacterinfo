@@ -10,5 +10,8 @@ dependencies {
     compile group: 'com.squareup.retrofit2', name: 'retrofit', version: '2.9.0'
     compile group: 'com.squareup.retrofit2', name: 'converter-jackson', version: '2.9.0'
 
+    compile group: 'io.github.benas', name: 'random-beans', version: '3.9.0'
+
+
 
 }

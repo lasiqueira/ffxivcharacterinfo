@@ -2,12 +2,15 @@ package com.lasiqueira.ffxivcharacterinfo.service;
 
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.ActiveClassJob;
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.CharacterData;
+import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.Company;
+import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.Rank;
 import com.lasiqueira.ffxivcharacterinfo.model.*;
 import com.lasiqueira.ffxivcharacterinfo.model.Character;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Component
 public class CharacterConverter {
@@ -61,8 +64,8 @@ public class CharacterConverter {
 
     private GrandCompany convertGrandCompany(com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.GrandCompany grandCompany) {
         GrandCompany grandComp = new GrandCompany();
-        grandComp.setName(grandCompany.getCompany().getName());
-        grandComp.setRank(grandCompany.getRank().getName());
+        grandComp.setName(Optional.ofNullable(grandCompany.getCompany()).orElse(new Company()).getName());
+        grandComp.setRank(Optional.ofNullable(grandCompany.getRank()).orElse(new Rank()).getName());
         return grandComp;
     }
 }
