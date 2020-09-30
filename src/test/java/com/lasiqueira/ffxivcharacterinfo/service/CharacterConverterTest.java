@@ -21,6 +21,7 @@ public class CharacterConverterTest {
     }
 
     @Test
+    @DisplayName("Test converting character")
     public void convertTest(){
         Character character = characterConverter.convert(characterData);
         assertNotNull(character);

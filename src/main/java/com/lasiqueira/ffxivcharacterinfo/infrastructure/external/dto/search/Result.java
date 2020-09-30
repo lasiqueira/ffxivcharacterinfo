@@ -23,7 +23,7 @@ public class Result {
     @JsonProperty("FeastMatches")
     private Integer feastMatches;
     @JsonProperty("ID")
-    private Integer iD;
+    private Long iD;
     @JsonProperty("Lang")
     private String lang;
     @JsonProperty("Name")
@@ -56,12 +56,12 @@ public class Result {
     }
 
     @JsonProperty("ID")
-    public Integer getID() {
+    public Long getID() {
         return iD;
     }
 
     @JsonProperty("ID")
-    public void setID(Integer iD) {
+    public void setID(Long iD) {
         this.iD = iD;
     }
 
