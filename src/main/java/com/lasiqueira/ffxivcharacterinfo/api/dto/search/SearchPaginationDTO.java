@@ -1,5 +1,7 @@
 package com.lasiqueira.ffxivcharacterinfo.api.dto.search;
 
+import java.util.Objects;
+
 public class SearchPaginationDTO {
     private Integer page;
     private Integer pageNext;
@@ -76,5 +78,37 @@ public class SearchPaginationDTO {
 
     public void setResultsTotal(Integer resultsTotal) {
         this.resultsTotal = resultsTotal;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SearchPaginationDTO that = (SearchPaginationDTO) o;
+        return Objects.equals(page, that.page) &&
+                Objects.equals(pageNext, that.pageNext) &&
+                Objects.equals(pagePrev, that.pagePrev) &&
+                Objects.equals(pageTotal, that.pageTotal) &&
+                Objects.equals(results, that.results) &&
+                Objects.equals(resultsPerPage, that.resultsPerPage) &&
+                Objects.equals(resultsTotal, that.resultsTotal);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(page, pageNext, pagePrev, pageTotal, results, resultsPerPage, resultsTotal);
+    }
+
+    @Override
+    public String toString() {
+        return "SearchPaginationDTO{" +
+                "page=" + page +
+                ", pageNext=" + pageNext +
+                ", pagePrev=" + pagePrev +
+                ", pageTotal=" + pageTotal +
+                ", results=" + results +
+                ", resultsPerPage=" + resultsPerPage +
+                ", resultsTotal=" + resultsTotal +
+                '}';
     }
 }

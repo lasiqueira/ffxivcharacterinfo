@@ -48,4 +48,29 @@ public class ClassJob {
         this.level = level;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ClassJob classJob = (ClassJob) o;
+        return level == classJob.level &&
+                Objects.equals(category, classJob.category) &&
+                Objects.equals(name, classJob.name) &&
+                Objects.equals(job, classJob.job);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(category, name, job, level);
+    }
+
+    @Override
+    public String toString() {
+        return "ClassJob{" +
+                "category='" + category + '\'' +
+                ", name='" + name + '\'' +
+                ", job='" + job + '\'' +
+                ", level=" + level +
+                '}';
+    }
 }

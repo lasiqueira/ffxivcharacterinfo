@@ -1,6 +1,11 @@
 package com.lasiqueira.ffxivcharacterinfo.api.exception;
 
+import java.util.Objects;
+
 public class APIError {
+    public APIError() {
+    }
+
     public APIError(String errorMsg) {
         this.errorMsg = errorMsg;
     }
@@ -12,5 +17,25 @@ public class APIError {
 
     public void setErrorMsg(String errorMsg) {
         this.errorMsg = errorMsg;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        APIError apiError = (APIError) o;
+        return Objects.equals(errorMsg, apiError.errorMsg);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(errorMsg);
+    }
+
+    @Override
+    public String toString() {
+        return "APIError{" +
+                "errorMsg='" + errorMsg + '\'' +
+                '}';
     }
 }

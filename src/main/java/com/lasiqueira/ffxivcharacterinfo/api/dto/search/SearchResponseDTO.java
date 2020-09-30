@@ -1,6 +1,7 @@
 package com.lasiqueira.ffxivcharacterinfo.api.dto.search;
 
 import java.util.List;
+import java.util.Objects;
 
 public class SearchResponseDTO {
 
@@ -29,5 +30,27 @@ public class SearchResponseDTO {
 
     public void setSearchResults(List<SearchResultDTO> searchResults) {
         this.searchResults = searchResults;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SearchResponseDTO that = (SearchResponseDTO) o;
+        return Objects.equals(searchPagination, that.searchPagination) &&
+                Objects.equals(searchResults, that.searchResults);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(searchPagination, searchResults);
+    }
+
+    @Override
+    public String toString() {
+        return "SearchResponseDTO{" +
+                "searchPagination=" + searchPagination +
+                ", searchResults=" + searchResults +
+                '}';
     }
 }

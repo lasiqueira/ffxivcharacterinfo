@@ -1,5 +1,6 @@
 package com.lasiqueira.ffxivcharacterinfo.api.dto.character;
 import java.util.List;
+import java.util.Objects;
 
 public class CharacterResponseDTO {
     private Long id;
@@ -151,5 +152,49 @@ public class CharacterResponseDTO {
 
     public void setServer(String server) {
         this.server = server;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        CharacterResponseDTO that = (CharacterResponseDTO) o;
+        return Objects.equals(id, that.id) &&
+                Objects.equals(avatar, that.avatar) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(race, that.race) &&
+                Objects.equals(title, that.title) &&
+                Objects.equals(nameDay, that.nameDay) &&
+                gender == that.gender &&
+                Objects.equals(activeClass, that.activeClass) &&
+                Objects.equals(classes, that.classes) &&
+                Objects.equals(grandCompany, that.grandCompany) &&
+                Objects.equals(guardianDeity, that.guardianDeity) &&
+                Objects.equals(dataCenter, that.dataCenter) &&
+                Objects.equals(server, that.server);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, avatar, name, race, title, nameDay, gender, activeClass, classes, grandCompany, guardianDeity, dataCenter, server);
+    }
+
+    @Override
+    public String toString() {
+        return "CharacterResponseDTO{" +
+                "id=" + id +
+                ", avatar='" + avatar + '\'' +
+                ", name='" + name + '\'' +
+                ", race=" + race +
+                ", title='" + title + '\'' +
+                ", nameDay='" + nameDay + '\'' +
+                ", gender=" + gender +
+                ", activeClass=" + activeClass +
+                ", classes=" + classes +
+                ", grandCompany=" + grandCompany +
+                ", guardianDeity='" + guardianDeity + '\'' +
+                ", dataCenter='" + dataCenter + '\'' +
+                ", server='" + server + '\'' +
+                '}';
     }
 }

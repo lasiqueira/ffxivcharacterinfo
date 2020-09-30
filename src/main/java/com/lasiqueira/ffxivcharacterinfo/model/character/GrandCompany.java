@@ -1,5 +1,7 @@
 package com.lasiqueira.ffxivcharacterinfo.model.character;
 
+import java.util.Objects;
+
 public class GrandCompany {
     private String name;
     private String rank;
@@ -26,5 +28,27 @@ public class GrandCompany {
 
     public void setRank(String rank) {
         this.rank = rank;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        GrandCompany that = (GrandCompany) o;
+        return Objects.equals(name, that.name) &&
+                Objects.equals(rank, that.rank);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, rank);
+    }
+
+    @Override
+    public String toString() {
+        return "GrandCompany{" +
+                "name='" + name + '\'' +
+                ", rank='" + rank + '\'' +
+                '}';
     }
 }

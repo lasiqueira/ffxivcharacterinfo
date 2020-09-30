@@ -1,5 +1,7 @@
 package com.lasiqueira.ffxivcharacterinfo.api.dto.character;
 
+import java.util.Objects;
+
 public class ClassJobDTO {
    private String category;
     private String name;
@@ -46,4 +48,29 @@ public class ClassJobDTO {
         this.level = level;
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ClassJobDTO that = (ClassJobDTO) o;
+        return level == that.level &&
+                Objects.equals(category, that.category) &&
+                Objects.equals(name, that.name) &&
+                Objects.equals(job, that.job);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(category, name, job, level);
+    }
+
+    @Override
+    public String toString() {
+        return "ClassJobDTO{" +
+                "category='" + category + '\'' +
+                ", name='" + name + '\'' +
+                ", job='" + job + '\'' +
+                ", level=" + level +
+                '}';
+    }
 }

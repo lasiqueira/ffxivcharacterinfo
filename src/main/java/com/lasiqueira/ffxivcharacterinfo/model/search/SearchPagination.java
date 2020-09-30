@@ -1,5 +1,7 @@
 package com.lasiqueira.ffxivcharacterinfo.model.search;
 
+import java.util.Objects;
+
 public class SearchPagination {
 
     private Integer page;
@@ -77,5 +79,37 @@ public class SearchPagination {
 
     public void setResultsTotal(Integer resultsTotal) {
         this.resultsTotal = resultsTotal;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SearchPagination that = (SearchPagination) o;
+        return Objects.equals(page, that.page) &&
+                Objects.equals(pageNext, that.pageNext) &&
+                Objects.equals(pagePrev, that.pagePrev) &&
+                Objects.equals(pageTotal, that.pageTotal) &&
+                Objects.equals(results, that.results) &&
+                Objects.equals(resultsPerPage, that.resultsPerPage) &&
+                Objects.equals(resultsTotal, that.resultsTotal);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(page, pageNext, pagePrev, pageTotal, results, resultsPerPage, resultsTotal);
+    }
+
+    @Override
+    public String toString() {
+        return "SearchPagination{" +
+                "page=" + page +
+                ", pageNext=" + pageNext +
+                ", pagePrev=" + pagePrev +
+                ", pageTotal=" + pageTotal +
+                ", results=" + results +
+                ", resultsPerPage=" + resultsPerPage +
+                ", resultsTotal=" + resultsTotal +
+                '}';
     }
 }
