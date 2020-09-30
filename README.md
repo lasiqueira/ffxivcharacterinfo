@@ -17,7 +17,7 @@ to build and run this project.
 ## Running
 `gradle bootRun`
 
-##Docker
+## Docker
 To run the application in a docker container, after building run the following commands:
 
 `gradle bootBuildImage`
