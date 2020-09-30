@@ -1,4 +1,4 @@
-package com.lasiqueira.ffxivcharacterinfo.api.dto;
+package com.lasiqueira.ffxivcharacterinfo.api.dto.character;
 
 import java.util.HashMap;
 import java.util.Map;

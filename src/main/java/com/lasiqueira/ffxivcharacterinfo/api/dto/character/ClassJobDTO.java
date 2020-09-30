@@ -1,4 +1,4 @@
-package com.lasiqueira.ffxivcharacterinfo.api.dto;
+package com.lasiqueira.ffxivcharacterinfo.api.dto.character;
 
 public class ClassJobDTO {
    private String category;

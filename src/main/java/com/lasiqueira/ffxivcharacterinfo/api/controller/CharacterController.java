@@ -1,6 +1,6 @@
 package com.lasiqueira.ffxivcharacterinfo.api.controller;
 
-import com.lasiqueira.ffxivcharacterinfo.api.dto.CharacterResponseDTO;
+import com.lasiqueira.ffxivcharacterinfo.api.dto.character.CharacterResponseDTO;
 import com.lasiqueira.ffxivcharacterinfo.service.CharacterService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.http.ResponseEntity;
