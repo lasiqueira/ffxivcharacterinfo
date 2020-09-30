@@ -1,13 +1,11 @@
 package com.lasiqueira.ffxivcharacterinfo.api.controller;
 
 import com.lasiqueira.ffxivcharacterinfo.api.dto.character.CharacterResponseDTO;
+import com.lasiqueira.ffxivcharacterinfo.api.dto.search.SearchResponseDTO;
 import com.lasiqueira.ffxivcharacterinfo.service.CharacterService;
 import ma.glasnost.orika.MapperFacade;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.io.IOException;
@@ -26,5 +24,13 @@ public class CharacterController {
     @GetMapping("/{id}")
     public ResponseEntity<CharacterResponseDTO> getCharacterData(@PathVariable Long id) throws IOException, ResponseStatusException {
         return ResponseEntity.ok(mapperFacade.map(characterService.getCharacterData(id), CharacterResponseDTO.class));
+    }
+
+    @GetMapping("/search")
+    public ResponseEntity<SearchResponseDTO> getCharacterSearch(
+            @RequestParam String name,
+            @RequestParam(required = false) String server,
+            @RequestParam(required = false) Integer page) throws IOException, ResponseStatusException {
+        return ResponseEntity.ok(mapperFacade.map(characterService.getCharacterSearch(name, server, page), SearchResponseDTO.class));
     }
 }

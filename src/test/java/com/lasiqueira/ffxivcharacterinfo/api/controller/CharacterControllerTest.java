@@ -1,9 +1,12 @@
 package com.lasiqueira.ffxivcharacterinfo.api.controller;
 
 import com.lasiqueira.ffxivcharacterinfo.api.dto.character.CharacterResponseDTO;
+import com.lasiqueira.ffxivcharacterinfo.api.dto.search.SearchResponseDTO;
 import com.lasiqueira.ffxivcharacterinfo.model.character.Character;
+import com.lasiqueira.ffxivcharacterinfo.model.search.Search;
 import com.lasiqueira.ffxivcharacterinfo.service.CharacterService;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
+import io.github.benas.randombeans.api.EnhancedRandom;
 import ma.glasnost.orika.MapperFacade;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -36,13 +39,19 @@ public class CharacterControllerTest {
     @MockBean
     private CharacterService characterService;
     private CharacterResponseDTO characterResponseDTO;
+    private SearchResponseDTO searchResponseDTO;
 
     private Character character;
+    private Search search;
     private static final long CHARACTER_ID = 1345l;
     @BeforeEach
     public void setup(){
-        this.character = EnhancedRandomBuilder.aNewEnhancedRandom().nextObject(Character.class);
-        this.characterResponseDTO = EnhancedRandomBuilder.aNewEnhancedRandom().nextObject(CharacterResponseDTO.class);
+        EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandom();
+        this.character = enhancedRandom.nextObject(Character.class);
+        this.characterResponseDTO = enhancedRandom.nextObject(CharacterResponseDTO.class);
+        this.search = enhancedRandom.nextObject(Search.class);
+        this.searchResponseDTO = enhancedRandom.nextObject(SearchResponseDTO.class);
+
     }
 
     @Test
@@ -90,7 +99,8 @@ public class CharacterControllerTest {
     @Test
     @DisplayName("Test getting the character data with internal server error")
     public void getCharacterDataInternalServerErrorTest() throws IOException {
-        when(characterService.getCharacterData(Mockito.anyLong())).thenThrow(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"));
+        when(characterService.getCharacterData(Mockito.anyLong()))
+                .thenThrow(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"));
         when(mapperFacade.map(character, CharacterResponseDTO.class)).thenReturn(characterResponseDTO);
         try {
             mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
@@ -107,6 +117,101 @@ public class CharacterControllerTest {
         when(mapperFacade.map(character, CharacterResponseDTO.class)).thenReturn(characterResponseDTO);
         try {
             mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
+                    .andExpect(status().isInternalServerError())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    @DisplayName("Test getting the character search")
+    public void getCharacterSearchTest() throws IOException {
+        when(characterService.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenReturn(search);
+        when(mapperFacade.map(search, SearchResponseDTO.class)).thenReturn(searchResponseDTO);
+        try {
+            mockMvc.perform(
+                        get("/v1/character/search")
+                        .param("name", Mockito.anyString())
+                        .param("server", Mockito.anyString())
+                        .param("page", String.valueOf(Mockito.anyInt())))
+                    .andExpect(status().isOk())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    @DisplayName("Test getting the character search without parameters")
+    public void getCharacterSearchNoParamsTest() throws IOException {
+        when(characterService.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenReturn(search);
+        when(mapperFacade.map(search, SearchResponseDTO.class)).thenReturn(searchResponseDTO);
+        try {
+            mockMvc.perform(
+                    get("/v1/character/search"))
+                    .andExpect(status().isBadRequest())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    @DisplayName("Test getting the character search with not acceptable")
+    public void getCharacterSearchNotAcceptableTest() throws IOException {
+        when(characterService.getCharacterSearch(
+                Mockito.anyString(),
+                Mockito.anyString(),
+                Mockito.anyInt()))
+                .thenThrow(new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You must provide the mandatory parameter"));
+        when(mapperFacade.map(search, SearchResponseDTO.class)).thenReturn(searchResponseDTO);
+        try {
+            mockMvc.perform(
+                    get("/v1/character/search")
+                            .param("name", Mockito.anyString())
+                            .param("server", Mockito.anyString())
+                            .param("page", String.valueOf(Mockito.anyInt())))
+                    .andExpect(status().isNotAcceptable())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    @DisplayName("Test getting the character search with internal server error")
+    public void getCharacterSearchInternalServerErrorTest() throws IOException {
+        when(characterService.getCharacterSearch(
+                Mockito.anyString(),
+                Mockito.anyString(),
+                Mockito.anyInt()))
+                .thenThrow(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"));
+        when(mapperFacade.map(search, SearchResponseDTO.class)).thenReturn(searchResponseDTO);
+        try {
+            mockMvc.perform(
+                    get("/v1/character/search")
+                            .param("name", Mockito.anyString())
+                            .param("server", Mockito.anyString())
+                            .param("page", String.valueOf(Mockito.anyInt())))
+                    .andExpect(status().isInternalServerError())
+                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @Test
+    @DisplayName("Test getting the character search with IO Exception")
+    public void getCharacterSearchIOExceptionTest() throws IOException {
+        when(characterService.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenThrow(new IOException());
+        when(mapperFacade.map(search, SearchResponseDTO.class)).thenReturn(searchResponseDTO);
+        try {
+            mockMvc.perform(
+                    get("/v1/character/search")
+                            .param("name", Mockito.anyString())
+                            .param("server", Mockito.anyString())
+                            .param("page", String.valueOf(Mockito.anyInt())))
                     .andExpect(status().isInternalServerError())
                     .andExpect(content().contentType(MediaType.APPLICATION_JSON));
         } catch (Exception e) {

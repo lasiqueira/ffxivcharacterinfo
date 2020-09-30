@@ -2,6 +2,7 @@ package com.lasiqueira.ffxivcharacterinfo.api.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MissingServletRequestParameterException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.server.ResponseStatusException;
@@ -19,6 +20,11 @@ public class CharacterErrorHandler {
     @ExceptionHandler({InterruptedException.class, IOException.class}) public ResponseEntity<APIError> internalServerError(final Exception e) {
         return error(e, HttpStatus.INTERNAL_SERVER_ERROR);
     }
+
+    @ExceptionHandler(MissingServletRequestParameterException.class) public ResponseEntity<APIError> requiredParamException(final MissingServletRequestParameterException e) {
+        return error(e, HttpStatus.BAD_REQUEST);
+    }
+
 
     private ResponseEntity <APIError> error(final Exception exception, final HttpStatus httpStatus) {
         final String message = Optional.of(exception.getMessage()).orElse(exception.getClass().getSimpleName());
