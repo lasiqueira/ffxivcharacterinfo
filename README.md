@@ -24,6 +24,8 @@ To run the application in a docker container, after building run the following c
 
 
 `docker run -it -p 8080:8080 ffxivcharacterinfo:0.0.1-SNAPSHOT`
+or
+`docker-compose up`
 
 ## Documentation
 (default: http://localhost:8080)  
