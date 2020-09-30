@@ -5,6 +5,8 @@ import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.C
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.search.CharacterSearch;
 import com.lasiqueira.ffxivcharacterinfo.model.character.Character;
 import com.lasiqueira.ffxivcharacterinfo.model.search.Search;
+import com.lasiqueira.ffxivcharacterinfo.service.converter.CharacterConverter;
+import com.lasiqueira.ffxivcharacterinfo.service.converter.SearchConverter;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
 import io.github.benas.randombeans.api.EnhancedRandom;
 import org.junit.jupiter.api.BeforeEach;

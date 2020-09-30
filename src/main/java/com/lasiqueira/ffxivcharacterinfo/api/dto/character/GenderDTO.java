@@ -18,8 +18,8 @@ public enum GenderDTO {
         }
     }
 
-    public static GenderDTO valueOf(int pageType) {
-        return (GenderDTO) map.get(pageType);
+    public static GenderDTO valueOf(int genderCode) {
+        return (GenderDTO) map.get(genderCode);
     }
 
 }

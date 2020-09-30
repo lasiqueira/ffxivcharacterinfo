@@ -7,6 +7,14 @@ public class SearchResponseDTO {
     private SearchPaginationDTO searchPagination;
     private List<SearchResultDTO> searchResults;
 
+    public SearchResponseDTO() {
+    }
+
+    public SearchResponseDTO(SearchPaginationDTO searchPagination, List<SearchResultDTO> searchResults) {
+        this.searchPagination = searchPagination;
+        this.searchResults = searchResults;
+    }
+
     public SearchPaginationDTO getSearchPagination() {
         return searchPagination;
     }

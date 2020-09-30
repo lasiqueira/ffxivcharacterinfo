@@ -1,4 +1,4 @@
-package com.lasiqueira.ffxivcharacterinfo.service;
+package com.lasiqueira.ffxivcharacterinfo.service.converter;
 
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.search.CharacterSearch;
 import com.lasiqueira.ffxivcharacterinfo.model.search.Search;
@@ -27,9 +27,9 @@ public class SearchConverterTest {
     public void convertTest(){
         Search search = searchConverter.convert(characterSearch);
         assertNotNull(search);
-        assertNotNull(search.getCharacterSearchPagination());
-        assertNotNull(search.getCharacterSearchResults());
-        assertFalse(search.getCharacterSearchResults().isEmpty());
+        assertNotNull(search.getSearchPagination());
+        assertNotNull(search.getSearchResults());
+        assertFalse(search.getSearchResults().isEmpty());
     }
 
     @Test
@@ -38,8 +38,8 @@ public class SearchConverterTest {
         characterSearch.setResults(new ArrayList<>());
         Search search = searchConverter.convert(characterSearch);
         assertNotNull(search);
-        assertNotNull(search.getCharacterSearchPagination());
-        assertNotNull(search.getCharacterSearchResults());
-        assertTrue(search.getCharacterSearchResults().isEmpty());
+        assertNotNull(search.getSearchPagination());
+        assertNotNull(search.getSearchResults());
+        assertTrue(search.getSearchResults().isEmpty());
     }
 }

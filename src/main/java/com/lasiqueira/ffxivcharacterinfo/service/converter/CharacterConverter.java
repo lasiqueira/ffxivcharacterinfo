@@ -1,4 +1,4 @@
-package com.lasiqueira.ffxivcharacterinfo.service;
+package com.lasiqueira.ffxivcharacterinfo.service.converter;
 
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.ActiveClassJob;
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.CharacterData;

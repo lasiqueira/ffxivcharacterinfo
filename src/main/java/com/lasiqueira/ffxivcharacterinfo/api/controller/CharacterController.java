@@ -1,9 +1,10 @@
 package com.lasiqueira.ffxivcharacterinfo.api.controller;
 
+import com.lasiqueira.ffxivcharacterinfo.api.converter.CharacterResponseDTOConverter;
+import com.lasiqueira.ffxivcharacterinfo.api.converter.SearchResponseDTOConverter;
 import com.lasiqueira.ffxivcharacterinfo.api.dto.character.CharacterResponseDTO;
 import com.lasiqueira.ffxivcharacterinfo.api.dto.search.SearchResponseDTO;
 import com.lasiqueira.ffxivcharacterinfo.service.CharacterService;
-import ma.glasnost.orika.MapperFacade;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
@@ -16,12 +17,14 @@ import java.io.IOException;
 @RequestMapping("/v1/character")
 public class CharacterController {
     private final CharacterService characterService;
-    private final MapperFacade mapperFacade;
+    private final CharacterResponseDTOConverter characterResponseDTOConverter;
+    private final SearchResponseDTOConverter searchResponseDTOConverter;
     private final Logger logger;
 
-    public CharacterController(CharacterService characterService, MapperFacade mapperFacade) {
+    public CharacterController(CharacterService characterService, CharacterResponseDTOConverter characterResponseDTOConverter, SearchResponseDTOConverter searchResponseDTOConverter) {
         this.characterService = characterService;
-        this.mapperFacade = mapperFacade;
+        this.characterResponseDTOConverter = characterResponseDTOConverter;
+        this.searchResponseDTOConverter = searchResponseDTOConverter;
         this.logger = LoggerFactory.getLogger(CharacterController.class);
     }
 
@@ -29,7 +32,7 @@ public class CharacterController {
     public ResponseEntity<CharacterResponseDTO> getCharacterData(@PathVariable Long id) throws IOException, ResponseStatusException {
         logger.info("Get character data...");
         logger.debug("id: {}", id);
-        return ResponseEntity.ok(mapperFacade.map(characterService.getCharacterData(id), CharacterResponseDTO.class));
+        return ResponseEntity.ok(characterResponseDTOConverter.convert(characterService.getCharacterData(id)));
     }
 
     @GetMapping("/search")
@@ -39,6 +42,6 @@ public class CharacterController {
             @RequestParam(required = false) Integer page) throws IOException, ResponseStatusException {
         logger.info("Get character search...");
         logger.debug("name: {}, server: {}, page: {}", name, server, page);
-        return ResponseEntity.ok(mapperFacade.map(characterService.getCharacterSearch(name, server, page), SearchResponseDTO.class));
+        return ResponseEntity.ok(searchResponseDTOConverter.convert(characterService.getCharacterSearch(name, server, page)));
     }
 }

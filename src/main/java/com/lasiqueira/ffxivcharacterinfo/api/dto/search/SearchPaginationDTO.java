@@ -9,6 +9,19 @@ public class SearchPaginationDTO {
     private Integer resultsPerPage;
     private Integer resultsTotal;
 
+    public SearchPaginationDTO() {
+    }
+
+    public SearchPaginationDTO(Integer page, Integer pageNext, Integer pagePrev, Integer pageTotal, Integer results, Integer resultsPerPage, Integer resultsTotal) {
+        this.page = page;
+        this.pageNext = pageNext;
+        this.pagePrev = pagePrev;
+        this.pageTotal = pageTotal;
+        this.results = results;
+        this.resultsPerPage = resultsPerPage;
+        this.resultsTotal = resultsTotal;
+    }
+
     public Integer getPage() {
         return page;
     }

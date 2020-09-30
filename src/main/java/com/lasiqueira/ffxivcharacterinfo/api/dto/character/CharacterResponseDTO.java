@@ -18,6 +18,37 @@ public class CharacterResponseDTO {
     private String dataCenter;
     private String server;
 
+    public CharacterResponseDTO() {
+    }
+
+    public CharacterResponseDTO(Long id,
+                                String avatar,
+                                String name,
+                                RaceDTO race,
+                                String title,
+                                String nameDay,
+                                GenderDTO gender,
+                                ClassJobDTO activeClass,
+                                List<ClassJobDTO> classes,
+                                GrandCompanyDTO grandCompany,
+                                String guardianDeity,
+                                String dataCenter,
+                                String server) {
+        this.id = id;
+        this.avatar = avatar;
+        this.name = name;
+        this.race = race;
+        this.title = title;
+        this.nameDay = nameDay;
+        this.gender = gender;
+        this.activeClass = activeClass;
+        this.classes = classes;
+        this.grandCompany = grandCompany;
+        this.guardianDeity = guardianDeity;
+        this.dataCenter = dataCenter;
+        this.server = server;
+    }
+
     public Long getId() {
         return id;
     }

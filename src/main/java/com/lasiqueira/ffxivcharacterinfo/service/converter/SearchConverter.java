@@ -1,4 +1,4 @@
-package com.lasiqueira.ffxivcharacterinfo.service;
+package com.lasiqueira.ffxivcharacterinfo.service.converter;
 
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.search.CharacterSearch;
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.search.Pagination;
@@ -15,8 +15,8 @@ import java.util.List;
 public class SearchConverter {
     public Search convert(CharacterSearch characterSearch){
         Search search = new Search();
-        search.setCharacterSearchPagination(convertPagination(characterSearch.getPagination()));
-        search.setCharacterSearchResults(convertResults(characterSearch.getResults()));
+        search.setSearchPagination(convertPagination(characterSearch.getPagination()));
+        search.setSearchResults(convertResults(characterSearch.getResults()));
         return search;
     }
 

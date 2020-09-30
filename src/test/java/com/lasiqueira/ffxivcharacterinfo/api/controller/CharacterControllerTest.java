@@ -1,5 +1,7 @@
 package com.lasiqueira.ffxivcharacterinfo.api.controller;
 
+import com.lasiqueira.ffxivcharacterinfo.api.converter.CharacterResponseDTOConverter;
+import com.lasiqueira.ffxivcharacterinfo.api.converter.SearchResponseDTOConverter;
 import com.lasiqueira.ffxivcharacterinfo.api.dto.character.CharacterResponseDTO;
 import com.lasiqueira.ffxivcharacterinfo.api.dto.search.SearchResponseDTO;
 import com.lasiqueira.ffxivcharacterinfo.model.character.Character;
@@ -7,7 +9,6 @@ import com.lasiqueira.ffxivcharacterinfo.model.search.Search;
 import com.lasiqueira.ffxivcharacterinfo.service.CharacterService;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
 import io.github.benas.randombeans.api.EnhancedRandom;
-import ma.glasnost.orika.MapperFacade;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -35,7 +36,9 @@ public class CharacterControllerTest {
     @Autowired
     private MockMvc mockMvc;
     @MockBean
-    private MapperFacade mapperFacade;
+    private CharacterResponseDTOConverter characterResponseDTOConverter;
+    @MockBean
+    private SearchResponseDTOConverter searchResponseDTOConverter;
     @MockBean
     private CharacterService characterService;
     private CharacterResponseDTO characterResponseDTO;
@@ -58,7 +61,7 @@ public class CharacterControllerTest {
     @DisplayName("Test getting the character data")
     public void getCharacterDataTest() throws IOException {
         when(characterService.getCharacterData(Mockito.anyLong())).thenReturn(character);
-        when(mapperFacade.map(character, CharacterResponseDTO.class)).thenReturn(characterResponseDTO);
+        when(characterResponseDTOConverter.convert(character)).thenReturn(characterResponseDTO);
         try {
             mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
                     .andExpect(status().isOk())
@@ -72,7 +75,7 @@ public class CharacterControllerTest {
     @DisplayName("Test getting the character data with no data found")
     public void getCharacterDataNotFoundTest() throws IOException {
         when(characterService.getCharacterData(Mockito.anyLong())).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "Character not found"));
-        when(mapperFacade.map(character, CharacterResponseDTO.class)).thenReturn(characterResponseDTO);
+        when(characterResponseDTOConverter.convert(character)).thenReturn(characterResponseDTO);
         try {
             mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
                     .andExpect(status().isNotFound())
@@ -86,7 +89,7 @@ public class CharacterControllerTest {
     @DisplayName("Test getting the character data with bad request")
     public void getCharacterDataBadRequestTest() throws IOException {
         when(characterService.getCharacterData(Mockito.anyLong())).thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request was invalid"));
-        when(mapperFacade.map(character, CharacterResponseDTO.class)).thenReturn(characterResponseDTO);
+        when(characterResponseDTOConverter.convert(character)).thenReturn(characterResponseDTO);
         try {
             mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
                     .andExpect(status().isBadRequest())
@@ -101,7 +104,7 @@ public class CharacterControllerTest {
     public void getCharacterDataInternalServerErrorTest() throws IOException {
         when(characterService.getCharacterData(Mockito.anyLong()))
                 .thenThrow(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"));
-        when(mapperFacade.map(character, CharacterResponseDTO.class)).thenReturn(characterResponseDTO);
+        when(characterResponseDTOConverter.convert(character)).thenReturn(characterResponseDTO);
         try {
             mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
                     .andExpect(status().isInternalServerError())
@@ -114,7 +117,7 @@ public class CharacterControllerTest {
     @DisplayName("Test getting the character data with IO Exception")
     public void getCharacterDataIOExceptionTest() throws IOException {
         when(characterService.getCharacterData(Mockito.anyLong())).thenThrow(new IOException());
-        when(mapperFacade.map(character, CharacterResponseDTO.class)).thenReturn(characterResponseDTO);
+        when(characterResponseDTOConverter.convert(character)).thenReturn(characterResponseDTO);
         try {
             mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
                     .andExpect(status().isInternalServerError())
@@ -128,7 +131,7 @@ public class CharacterControllerTest {
     @DisplayName("Test getting the character search")
     public void getCharacterSearchTest() throws IOException {
         when(characterService.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenReturn(search);
-        when(mapperFacade.map(search, SearchResponseDTO.class)).thenReturn(searchResponseDTO);
+        when(searchResponseDTOConverter.convert(search)).thenReturn(searchResponseDTO);
         try {
             mockMvc.perform(
                         get("/v1/character/search")
@@ -145,7 +148,7 @@ public class CharacterControllerTest {
     @DisplayName("Test getting the character search without parameters")
     public void getCharacterSearchNoParamsTest() throws IOException {
         when(characterService.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenReturn(search);
-        when(mapperFacade.map(search, SearchResponseDTO.class)).thenReturn(searchResponseDTO);
+        when(searchResponseDTOConverter.convert(search)).thenReturn(searchResponseDTO);
         try {
             mockMvc.perform(
                     get("/v1/character/search"))
@@ -164,7 +167,7 @@ public class CharacterControllerTest {
                 Mockito.anyString(),
                 Mockito.anyInt()))
                 .thenThrow(new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You must provide the mandatory parameter"));
-        when(mapperFacade.map(search, SearchResponseDTO.class)).thenReturn(searchResponseDTO);
+        when(searchResponseDTOConverter.convert(search)).thenReturn(searchResponseDTO);
         try {
             mockMvc.perform(
                     get("/v1/character/search")
@@ -186,7 +189,7 @@ public class CharacterControllerTest {
                 Mockito.anyString(),
                 Mockito.anyInt()))
                 .thenThrow(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"));
-        when(mapperFacade.map(search, SearchResponseDTO.class)).thenReturn(searchResponseDTO);
+        when(searchResponseDTOConverter.convert(search)).thenReturn(searchResponseDTO);
         try {
             mockMvc.perform(
                     get("/v1/character/search")
@@ -205,7 +208,7 @@ public class CharacterControllerTest {
     @DisplayName("Test getting the character search with IO Exception")
     public void getCharacterSearchIOExceptionTest() throws IOException {
         when(characterService.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenThrow(new IOException());
-        when(mapperFacade.map(search, SearchResponseDTO.class)).thenReturn(searchResponseDTO);
+        when(searchResponseDTOConverter.convert(search)).thenReturn(searchResponseDTO);
         try {
             mockMvc.perform(
                     get("/v1/character/search")
