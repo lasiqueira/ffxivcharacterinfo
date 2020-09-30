@@ -4,7 +4,6 @@ import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.C
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.search.CharacterSearch;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
@@ -13,7 +12,6 @@ import retrofit2.Response;
 import java.io.IOException;
 
 @Component
-@CacheConfig(cacheNames = {"character"})
 public class ApiAdapter implements ApiPort{
     private final XivApi xivApi;
     private final Logger logger;
@@ -24,7 +22,7 @@ public class ApiAdapter implements ApiPort{
     }
 
     @Override
-    @Cacheable(key = "#id")
+    @Cacheable(cacheNames ="character", key = "#id")
     public CharacterData getCharacterData(Long id) throws IOException, ResponseStatusException {
         logger.info("Get character data...");
         logger.debug("id: {}", id);
@@ -43,6 +41,7 @@ public class ApiAdapter implements ApiPort{
         return characterData;
     }
     @Override
+    @Cacheable(cacheNames ="search", key = "{#name, #server, #page}")
     public CharacterSearch getCharacterSearch(String name, String server, Integer page) throws IOException, ResponseStatusException {
         logger.info("Get character search...");
         logger.debug("name: {}, server: {}, page: {}", name, server, page);

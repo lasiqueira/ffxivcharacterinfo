@@ -5,12 +5,13 @@ import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.search.Char
 import retrofit2.Call;
 import retrofit2.http.GET;
 import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 
 public interface XivApi {
     @GET("character/{id}?data=CJ&extended=1")
     Call<CharacterData> getCharacterData(@Path("id") final Long id);
 
-    @GET("character/search?name={name}&server={server}&page={page}")
-    Call<CharacterSearch> getCharacterSearch(@Path("name") final String name, @Path("server") final String server, @Path("page") final Integer page);
+    @GET("character/search")
+    Call<CharacterSearch> getCharacterSearch(@Query("name") final String name, @Query("server") final String server, @Query("page") final Integer page);
 }
