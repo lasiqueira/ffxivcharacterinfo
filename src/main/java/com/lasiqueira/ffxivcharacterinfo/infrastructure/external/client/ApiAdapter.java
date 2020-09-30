@@ -1,6 +1,7 @@
 package com.lasiqueira.ffxivcharacterinfo.infrastructure.external.client;
 
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.CharacterData;
+import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.search.CharacterSearch;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -35,6 +36,10 @@ public class ApiAdapter implements ApiPort{
                 throw new ResponseStatusException(
                         HttpStatus.NOT_FOUND, "Character not found"
                 );
+            } else if(response.code() == HttpStatus.NOT_ACCEPTABLE.value()){
+                throw new ResponseStatusException(
+                        HttpStatus.NOT_ACCEPTABLE, "You must provide the mandatory parameter"
+                );
             } else {
                 throw new ResponseStatusException(
                         HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"
@@ -43,5 +48,10 @@ public class ApiAdapter implements ApiPort{
         }
     }
 
-
+    @Override
+    public CharacterSearch getCharacterSearch(String name, String server, Integer page) throws IOException, ResponseStatusException {
+        Response<CharacterSearch> response = xivApi.getCharacterSearch(name, server, page).execute();
+        handleResponseCode(response);
+        return response.body();
+    }
 }
