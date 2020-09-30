@@ -17,7 +17,7 @@ to build and run this project.
 ## Running
 `gradle bootRun`
 
-##Docker
+## Docker
 To run the application in a docker container, after building run the following commands:
 
 `gradle bootBuildImage`
@@ -34,7 +34,7 @@ server:port/swagger-ui.html
 ## Example
 `curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/v1/character/7309689`
 
-##TODO
+## TODO
 Search player character by name;
 
 Fetch class/classes with highest/lowest level;
