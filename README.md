@@ -35,9 +35,8 @@ server:port/swagger-ui.html
 `curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/v1/character/7309689`
 
 ## TODO
-Search player character by name;
 
-Fetch class/classes with highest/lowest level;
+Modify data to return interesting stats according to query params;
 
 Add more character information displayed to the user;
 
