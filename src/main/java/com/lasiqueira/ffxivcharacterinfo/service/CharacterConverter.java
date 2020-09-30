@@ -16,6 +16,7 @@ import java.util.Optional;
 public class CharacterConverter {
     public Character convert(CharacterData characterData) {
        Character character = new Character();
+       character.setId(characterData.getCharacter().getID());
        character.setAvatar(characterData.getCharacter().getAvatar());
        character.setName(characterData.getCharacter().getName());
        character.setDataCenter(characterData.getCharacter().getDC());

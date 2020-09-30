@@ -2,6 +2,7 @@ package com.lasiqueira.ffxivcharacterinfo.api.dto;
 import java.util.List;
 
 public class CharacterResponseDTO {
+    private Long id;
     private String avatar;
     private String name;
     private RaceDTO race;
@@ -16,6 +17,14 @@ public class CharacterResponseDTO {
 
     private String dataCenter;
     private String server;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getAvatar() {
         return avatar;

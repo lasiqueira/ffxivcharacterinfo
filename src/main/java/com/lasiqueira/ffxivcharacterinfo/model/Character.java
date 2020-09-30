@@ -3,6 +3,7 @@ package com.lasiqueira.ffxivcharacterinfo.model;
 import java.util.List;
 
 public class Character {
+    private Long id;
     private String avatar;
     private String name;
     private Race race;
@@ -17,6 +18,14 @@ public class Character {
 
     private String dataCenter;
     private String server;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getAvatar() {
         return avatar;

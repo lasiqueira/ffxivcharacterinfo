@@ -24,7 +24,8 @@ public class CharacterConverterTest {
     public void convertTest(){
         Character character = characterConverter.convert(characterData);
         assertNotNull(character);
-        assertEquals(character.getName(), characterData.getCharacter().getName());
+        assertEquals(characterData.getCharacter().getID(),character.getId());
+        assertEquals(characterData.getCharacter().getName(), character.getName());
     }
 
     //These are the only nullable fields;
