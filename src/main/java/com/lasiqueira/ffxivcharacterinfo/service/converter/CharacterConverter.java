@@ -35,15 +35,13 @@ public class CharacterConverter {
 
     private List<ClassJob> convertClasses(List<com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.ClassJob> classJobs) {
         List<ClassJob> classJobList = new ArrayList<>();
-        classJobs.forEach(classJob ->{
-                ClassJob classJobNew = new ClassJob();
-                classJobNew.setCategory(classJob.getClass_().getClassJobCategory().getName());
-                classJobNew.setName(classJob.getClass_().getName());
-                classJobNew.setJob(classJob.getJob().getName());
-                classJobNew.setLevel(classJob.getLevel());
-                classJobList.add(classJobNew);
-                }
-        );
+
+        classJobs.stream()
+                .map(classJob -> new ClassJob(classJob.getClass_().getClassJobCategory().getName(),
+                        classJob.getClass_().getName(),
+                        classJob.getJob().getName(),
+                        classJob.getLevel()))
+                .forEach(classJobList::add);
         return classJobList;
     }
 
