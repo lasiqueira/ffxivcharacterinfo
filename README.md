@@ -32,3 +32,11 @@ server:port/swagger-ui.html
 ## Example
 `curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/v1/character/7309689`
 
+##TODO
+Search player character by name;
+
+Fetch class/classes with highest/lowest level;
+
+Add more character information displayed to the user;
+
+Store and display character level growth by day;
