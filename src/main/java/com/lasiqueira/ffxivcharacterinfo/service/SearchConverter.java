@@ -3,9 +3,9 @@ package com.lasiqueira.ffxivcharacterinfo.service;
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.search.CharacterSearch;
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.search.Pagination;
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.search.Result;
-import com.lasiqueira.ffxivcharacterinfo.model.Search;
-import com.lasiqueira.ffxivcharacterinfo.model.SearchPagination;
-import com.lasiqueira.ffxivcharacterinfo.model.SearchResult;
+import com.lasiqueira.ffxivcharacterinfo.model.search.Search;
+import com.lasiqueira.ffxivcharacterinfo.model.search.SearchPagination;
+import com.lasiqueira.ffxivcharacterinfo.model.search.SearchResult;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

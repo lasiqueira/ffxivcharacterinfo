@@ -2,7 +2,7 @@ package com.lasiqueira.ffxivcharacterinfo.service;
 
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.client.ApiPort;
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.CharacterData;
-import com.lasiqueira.ffxivcharacterinfo.model.Character;
+import com.lasiqueira.ffxivcharacterinfo.model.character.Character;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 

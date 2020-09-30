@@ -1,4 +1,4 @@
-package com.lasiqueira.ffxivcharacterinfo.model;
+package com.lasiqueira.ffxivcharacterinfo.model.search;
 
 public class SearchResult {
     private Long id;

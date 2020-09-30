@@ -4,8 +4,8 @@ import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.A
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.CharacterData;
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.Company;
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.Rank;
-import com.lasiqueira.ffxivcharacterinfo.model.*;
-import com.lasiqueira.ffxivcharacterinfo.model.Character;
+import com.lasiqueira.ffxivcharacterinfo.model.character.*;
+import com.lasiqueira.ffxivcharacterinfo.model.character.Character;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;

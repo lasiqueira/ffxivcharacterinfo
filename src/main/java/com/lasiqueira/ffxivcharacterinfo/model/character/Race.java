@@ -1,4 +1,4 @@
-package com.lasiqueira.ffxivcharacterinfo.model;
+package com.lasiqueira.ffxivcharacterinfo.model.character;
 
 public class Race {
     private String name;

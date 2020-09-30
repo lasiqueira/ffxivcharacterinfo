@@ -1,4 +1,4 @@
-package com.lasiqueira.ffxivcharacterinfo.model;
+package com.lasiqueira.ffxivcharacterinfo.model.character;
 
 public class GrandCompany {
     private String name;

@@ -1,7 +1,7 @@
 package com.lasiqueira.ffxivcharacterinfo.api.controller;
 
 import com.lasiqueira.ffxivcharacterinfo.api.dto.CharacterResponseDTO;
-import com.lasiqueira.ffxivcharacterinfo.model.Character;
+import com.lasiqueira.ffxivcharacterinfo.model.character.Character;
 import com.lasiqueira.ffxivcharacterinfo.service.CharacterService;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
 import ma.glasnost.orika.MapperFacade;

@@ -1,4 +1,4 @@
-package com.lasiqueira.ffxivcharacterinfo.model;
+package com.lasiqueira.ffxivcharacterinfo.model.character;
 
 import java.util.HashMap;
 import java.util.Map;

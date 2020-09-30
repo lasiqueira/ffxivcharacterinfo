@@ -1,4 +1,4 @@
-package com.lasiqueira.ffxivcharacterinfo.model;
+package com.lasiqueira.ffxivcharacterinfo.model.search;
 
 import java.util.List;
 

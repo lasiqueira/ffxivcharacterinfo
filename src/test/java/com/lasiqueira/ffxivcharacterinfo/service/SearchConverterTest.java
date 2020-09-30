@@ -1,7 +1,7 @@
 package com.lasiqueira.ffxivcharacterinfo.service;
 
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.search.CharacterSearch;
-import com.lasiqueira.ffxivcharacterinfo.model.Search;
+import com.lasiqueira.ffxivcharacterinfo.model.search.Search;
 import io.github.benas.randombeans.EnhancedRandomBuilder;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
