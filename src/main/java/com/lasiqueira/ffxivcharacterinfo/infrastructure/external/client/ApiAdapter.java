@@ -2,6 +2,8 @@ package com.lasiqueira.ffxivcharacterinfo.infrastructure.external.client;
 
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.CharacterData;
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.search.CharacterSearch;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.cache.annotation.CacheConfig;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -14,19 +16,54 @@ import java.io.IOException;
 @CacheConfig(cacheNames = {"character"})
 public class ApiAdapter implements ApiPort{
     private final XivApi xivApi;
+    private final Logger logger;
 
     public ApiAdapter(XivApi xivApi) {
         this.xivApi = xivApi;
+        this.logger = LoggerFactory.getLogger(ApiAdapter.class);
     }
 
     @Override
     @Cacheable(key = "#id")
     public CharacterData getCharacterData(Long id) throws IOException, ResponseStatusException {
-        Response<CharacterData> response = xivApi.getCharacterData(id).execute();
-        handleResponseCode(response);
-        return response.body();
+        logger.info("Get character data...");
+        logger.debug("id: {}", id);
+        CharacterData characterData = null;
+        try {
+            Response<CharacterData> response = xivApi.getCharacterData(id).execute();
+            handleResponseCode(response);
+            characterData = response.body();
+        } catch (IOException e){
+            logger.error(e.getMessage(), e);
+            throw e;
+        } catch (ResponseStatusException e){
+            logger.error(e.getMessage(), e);
+            throw e;
+        }
+        return characterData;
     }
+    @Override
+    public CharacterSearch getCharacterSearch(String name, String server, Integer page) throws IOException, ResponseStatusException {
+        logger.info("Get character search...");
+        logger.debug("name: {}, server: {}, page: {}", name, server, page);
+        CharacterSearch characterSearch = null;
+        try {
+            Response<CharacterSearch> response = xivApi.getCharacterSearch(name, server, page).execute();
+            handleResponseCode(response);
+            characterSearch = response.body();
+        } catch (IOException e){
+            logger.error(e.getMessage(), e);
+            throw e;
+        } catch (ResponseStatusException e){
+            logger.error(e.getMessage(), e);
+            throw e;
+        }
+        return characterSearch;
+    }
+
     private void handleResponseCode(Response response) throws ResponseStatusException{
+        logger.info("Handling response code...");
+        logger.debug("Response Code: {}", response.code());
         if(response.code() != HttpStatus.OK.value()) {
             if (response.code() == HttpStatus.BAD_REQUEST.value()) {
                 throw new ResponseStatusException(
@@ -46,12 +83,5 @@ public class ApiAdapter implements ApiPort{
                 );
             }
         }
-    }
-
-    @Override
-    public CharacterSearch getCharacterSearch(String name, String server, Integer page) throws IOException, ResponseStatusException {
-        Response<CharacterSearch> response = xivApi.getCharacterSearch(name, server, page).execute();
-        handleResponseCode(response);
-        return response.body();
     }
 }

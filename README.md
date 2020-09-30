@@ -7,7 +7,7 @@ You need:
 [JDK14+](https://jdk.java.net/)
 
 [Gradle 6.6.1+](https://gradle.org/releases/) 
-(Alternatively you can use the gradle wrapper with ./gradlew instead of the gradle command)
+(Alternatively you can use the gradle wrapper with `gradlew` instead of the `gradle` command)
 
 to build and run this project.
 
