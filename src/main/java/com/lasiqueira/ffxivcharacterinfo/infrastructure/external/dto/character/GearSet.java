@@ -1,17 +1,11 @@
 
 package com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import com.fasterxml.jackson.annotation.*;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
     "Attributes",
     "Class",
@@ -25,17 +19,15 @@ public class GearSet {
     @JsonProperty("Attributes")
     private List<Attribute> attributes = null;
     @JsonProperty("Class")
-    private Class__ _class;
+    private Class _class;
     @JsonProperty("Gear")
     private Gear gear;
     @JsonProperty("GearKey")
     private String gearKey;
     @JsonProperty("Job")
-    private Job__ job;
+    private Job job;
     @JsonProperty("Level")
     private Integer level;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("Attributes")
     public List<Attribute> getAttributes() {
@@ -48,12 +40,12 @@ public class GearSet {
     }
 
     @JsonProperty("Class")
-    public Class__ getClass_() {
+    public Class getClass_() {
         return _class;
     }
 
     @JsonProperty("Class")
-    public void setClass_(Class__ _class) {
+    public void setClass_(Class _class) {
         this._class = _class;
     }
 
@@ -78,12 +70,12 @@ public class GearSet {
     }
 
     @JsonProperty("Job")
-    public Job__ getJob() {
+    public Job getJob() {
         return job;
     }
 
     @JsonProperty("Job")
-    public void setJob(Job__ job) {
+    public void setJob(Job job) {
         this.job = job;
     }
 
@@ -95,16 +87,6 @@ public class GearSet {
     @JsonProperty("Level")
     public void setLevel(Integer level) {
         this.level = level;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
 }

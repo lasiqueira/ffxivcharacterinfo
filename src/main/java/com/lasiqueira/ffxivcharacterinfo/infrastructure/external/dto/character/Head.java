@@ -1,17 +1,15 @@
 
 package com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
     "Creator",
     "Dye",
@@ -24,15 +22,13 @@ public class Head {
     @JsonProperty("Creator")
     private Object creator;
     @JsonProperty("Dye")
-    private Dye___ dye;
+    private Dye dye;
     @JsonProperty("Item")
-    private Item_____ item;
+    private Item item;
     @JsonProperty("Materia")
-    private List<Materium_____> materia = null;
+    private List<Materium> materia = null;
     @JsonProperty("Mirage")
-    private Mirage___ mirage;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private Mirage mirage;
 
     @JsonProperty("Creator")
     public Object getCreator() {
@@ -45,53 +41,43 @@ public class Head {
     }
 
     @JsonProperty("Dye")
-    public Dye___ getDye() {
+    public Dye getDye() {
         return dye;
     }
 
     @JsonProperty("Dye")
-    public void setDye(Dye___ dye) {
+    public void setDye(Dye dye) {
         this.dye = dye;
     }
 
     @JsonProperty("Item")
-    public Item_____ getItem() {
+    public Item getItem() {
         return item;
     }
 
     @JsonProperty("Item")
-    public void setItem(Item_____ item) {
+    public void setItem(Item item) {
         this.item = item;
     }
 
     @JsonProperty("Materia")
-    public List<Materium_____> getMateria() {
+    public List<Materium> getMateria() {
         return materia;
     }
 
     @JsonProperty("Materia")
-    public void setMateria(List<Materium_____> materia) {
+    public void setMateria(List<Materium> materia) {
         this.materia = materia;
     }
 
     @JsonProperty("Mirage")
-    public Mirage___ getMirage() {
+    public Mirage getMirage() {
         return mirage;
     }
 
     @JsonProperty("Mirage")
-    public void setMirage(Mirage___ mirage) {
+    public void setMirage(Mirage mirage) {
         this.mirage = mirage;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
 }

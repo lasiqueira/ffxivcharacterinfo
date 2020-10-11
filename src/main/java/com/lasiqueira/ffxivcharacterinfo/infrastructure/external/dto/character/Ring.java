@@ -1,17 +1,15 @@
 
 package com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
     "Creator",
     "Dye",
@@ -19,20 +17,18 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
     "Materia",
     "Mirage"
 })
-public class Ring1 {
+public class Ring {
 
     @JsonProperty("Creator")
     private Object creator;
     @JsonProperty("Dye")
     private Object dye;
     @JsonProperty("Item")
-    private Item_________ item;
+    private Item item;
     @JsonProperty("Materia")
-    private List<Materium_________> materia = null;
+    private List<Materium> materia = null;
     @JsonProperty("Mirage")
     private Object mirage;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("Creator")
     public Object getCreator() {
@@ -55,22 +51,22 @@ public class Ring1 {
     }
 
     @JsonProperty("Item")
-    public Item_________ getItem() {
+    public Item getItem() {
         return item;
     }
 
     @JsonProperty("Item")
-    public void setItem(Item_________ item) {
+    public void setItem(Item item) {
         this.item = item;
     }
 
     @JsonProperty("Materia")
-    public List<Materium_________> getMateria() {
+    public List<Materium> getMateria() {
         return materia;
     }
 
     @JsonProperty("Materia")
-    public void setMateria(List<Materium_________> materia) {
+    public void setMateria(List<Materium> materia) {
         this.materia = materia;
     }
 
@@ -82,16 +78,6 @@ public class Ring1 {
     @JsonProperty("Mirage")
     public void setMirage(Object mirage) {
         this.mirage = mirage;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
 }

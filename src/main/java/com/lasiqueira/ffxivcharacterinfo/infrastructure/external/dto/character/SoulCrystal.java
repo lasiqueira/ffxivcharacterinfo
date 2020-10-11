@@ -1,17 +1,15 @@
 
 package com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
     "Creator",
     "Dye",
@@ -26,13 +24,11 @@ public class SoulCrystal {
     @JsonProperty("Dye")
     private Object dye;
     @JsonProperty("Item")
-    private Item___________ item;
+    private Item item;
     @JsonProperty("Materia")
     private List<Object> materia = null;
     @JsonProperty("Mirage")
     private Object mirage;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("Creator")
     public Object getCreator() {
@@ -55,12 +51,12 @@ public class SoulCrystal {
     }
 
     @JsonProperty("Item")
-    public Item___________ getItem() {
+    public Item getItem() {
         return item;
     }
 
     @JsonProperty("Item")
-    public void setItem(Item___________ item) {
+    public void setItem(Item item) {
         this.item = item;
     }
 
@@ -82,16 +78,6 @@ public class SoulCrystal {
     @JsonProperty("Mirage")
     public void setMirage(Object mirage) {
         this.mirage = mirage;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
 }

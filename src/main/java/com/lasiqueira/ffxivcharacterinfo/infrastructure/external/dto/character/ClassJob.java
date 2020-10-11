@@ -1,16 +1,13 @@
 
 package com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character;
 
-import java.util.HashMap;
-import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
     "Class",
     "ExpLevel",
@@ -25,7 +22,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class ClassJob {
 
     @JsonProperty("Class")
-    private Class_ _class;
+    private Class _class;
     @JsonProperty("ExpLevel")
     private Integer expLevel;
     @JsonProperty("ExpLevelMax")
@@ -35,23 +32,21 @@ public class ClassJob {
     @JsonProperty("IsSpecialised")
     private Boolean isSpecialised;
     @JsonProperty("Job")
-    private Job_ job;
+    private Job job;
     @JsonProperty("Level")
     private Integer level;
     @JsonProperty("Name")
     private String name;
     @JsonProperty("UnlockedState")
-    private UnlockedState_ unlockedState;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
+    private UnlockedState unlockedState;
 
     @JsonProperty("Class")
-    public Class_ getClass_() {
+    public Class getClass_() {
         return _class;
     }
 
     @JsonProperty("Class")
-    public void setClass_(Class_ _class) {
+    public void setClass(Class _class) {
         this._class = _class;
     }
 
@@ -96,12 +91,12 @@ public class ClassJob {
     }
 
     @JsonProperty("Job")
-    public Job_ getJob() {
+    public Job getJob() {
         return job;
     }
 
     @JsonProperty("Job")
-    public void setJob(Job_ job) {
+    public void setJob(Job job) {
         this.job = job;
     }
 
@@ -126,23 +121,13 @@ public class ClassJob {
     }
 
     @JsonProperty("UnlockedState")
-    public UnlockedState_ getUnlockedState() {
+    public UnlockedState getUnlockedState() {
         return unlockedState;
     }
 
     @JsonProperty("UnlockedState")
-    public void setUnlockedState(UnlockedState_ unlockedState) {
+    public void setUnlockedState(UnlockedState unlockedState) {
         this.unlockedState = unlockedState;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
 }

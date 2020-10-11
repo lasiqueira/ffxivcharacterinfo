@@ -1,16 +1,13 @@
 
 package com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character;
 
-import java.util.HashMap;
-import java.util.Map;
-import com.fasterxml.jackson.annotation.JsonAnyGetter;
-import com.fasterxml.jackson.annotation.JsonAnySetter;
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
+@JsonIgnoreProperties(ignoreUnknown = true)
 @JsonPropertyOrder({
     "ClassJobCategory",
     "ID",
@@ -24,7 +21,7 @@ import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 public class Item {
 
     @JsonProperty("ClassJobCategory")
-    private ClassJobCategory___ classJobCategory;
+    private ClassJobCategory classJobCategory;
     @JsonProperty("ID")
     private Integer iD;
     @JsonProperty("Icon")
@@ -39,16 +36,14 @@ public class Item {
     private String name;
     @JsonProperty("Rarity")
     private Integer rarity;
-    @JsonIgnore
-    private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
     @JsonProperty("ClassJobCategory")
-    public ClassJobCategory___ getClassJobCategory() {
+    public ClassJobCategory getClassJobCategory() {
         return classJobCategory;
     }
 
     @JsonProperty("ClassJobCategory")
-    public void setClassJobCategory(ClassJobCategory___ classJobCategory) {
+    public void setClassJobCategory(ClassJobCategory classJobCategory) {
         this.classJobCategory = classJobCategory;
     }
 
@@ -120,16 +115,6 @@ public class Item {
     @JsonProperty("Rarity")
     public void setRarity(Integer rarity) {
         this.rarity = rarity;
-    }
-
-    @JsonAnyGetter
-    public Map<String, Object> getAdditionalProperties() {
-        return this.additionalProperties;
-    }
-
-    @JsonAnySetter
-    public void setAdditionalProperty(String name, Object value) {
-        this.additionalProperties.put(name, value);
     }
 
 }
