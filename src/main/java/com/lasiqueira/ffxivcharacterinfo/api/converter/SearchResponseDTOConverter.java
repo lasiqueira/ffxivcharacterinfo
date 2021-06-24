@@ -7,38 +7,31 @@ import com.lasiqueira.ffxivcharacterinfo.model.search.Search;
 import com.lasiqueira.ffxivcharacterinfo.model.search.SearchPagination;
 import com.lasiqueira.ffxivcharacterinfo.model.search.SearchResult;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class SearchResponseDTOConverter {
     public SearchResponseDTO convert(Search search){
-        SearchResponseDTO searchResponseDTO = new SearchResponseDTO();
-        searchResponseDTO.setSearchPagination(convertPagination(search.getSearchPagination()));
-        searchResponseDTO.setSearchResults(convertResults(search.getSearchResults()));
-        return searchResponseDTO;
+        return new SearchResponseDTO(convertPagination(search.getSearchPagination()), convertResults(search.getSearchResults()));
     }
 
     private List<SearchResultDTO> convertResults(List<SearchResult> searchResults){
-        List<SearchResultDTO> searchResultDTOList = new ArrayList<>();
-        searchResults.stream()
+        return searchResults.stream()
             .map(result -> new SearchResultDTO(result.getId(), result.getName(), result.getAvatar()))
-            .forEach(searchResultDTOList::add);
-        return searchResultDTOList;
+            .collect(Collectors.toList());
 
     }
 
     private SearchPaginationDTO convertPagination(SearchPagination searchPagination){
-        SearchPaginationDTO searchPaginationDTO = new SearchPaginationDTO();
-        searchPaginationDTO.setPage(searchPagination.getPage());
-        searchPaginationDTO.setPageNext(searchPagination.getPageNext());
-        searchPaginationDTO.setPagePrev(searchPagination.getPagePrev());
-        searchPaginationDTO.setPageTotal(searchPagination.getPageTotal());
-        searchPaginationDTO.setResults(searchPagination.getResults());
-        searchPaginationDTO.setResultsPerPage(searchPagination.getResultsPerPage());
-        searchPaginationDTO.setResultsTotal(searchPagination.getResultsTotal());
-
-        return searchPaginationDTO;
+        return new SearchPaginationDTO(
+                searchPagination.getPage(),
+                searchPagination.getPageNext(),
+                searchPagination.getPagePrev(),
+                searchPagination.getPageTotal(),
+                searchPagination.getResults(),
+                searchPagination.getResultsPerPage(),
+                searchPagination.getResultsTotal()
+                );
     }
 }

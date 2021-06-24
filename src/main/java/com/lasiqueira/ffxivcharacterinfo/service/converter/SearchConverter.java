@@ -8,37 +8,33 @@ import com.lasiqueira.ffxivcharacterinfo.model.search.SearchPagination;
 import com.lasiqueira.ffxivcharacterinfo.model.search.SearchResult;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class SearchConverter {
     public Search convert(CharacterSearch characterSearch){
-        Search search = new Search();
-        search.setSearchPagination(convertPagination(characterSearch.getPagination()));
-        search.setSearchResults(convertResults(characterSearch.getResults()));
-        return search;
+       return new Search(
+               convertPagination(characterSearch.getPagination()),
+               convertResults(characterSearch.getResults())
+       );
     }
 
     private List<SearchResult> convertResults(List<Result> results){
-        List<SearchResult> searchResults = new ArrayList<>();
-        results.stream()
+        return results.stream()
             .map(result -> new SearchResult(result.getID(), result.getName(), result.getAvatar()))
-            .forEach(searchResults::add);
-        return searchResults;
-
+            .collect(Collectors.toList());
     }
 
     private SearchPagination convertPagination(Pagination pagination){
-        SearchPagination searchPagination = new SearchPagination();
-        searchPagination.setPage(pagination.getPage());
-        searchPagination.setPageNext(pagination.getPageNext());
-        searchPagination.setPagePrev(pagination.getPagePrev());
-        searchPagination.setPageTotal(pagination.getPageTotal());
-        searchPagination.setResults(pagination.getResults());
-        searchPagination.setResultsPerPage(pagination.getResultsPerPage());
-        searchPagination.setResultsTotal(pagination.getResultsTotal());
-
-        return searchPagination;
+        return new SearchPagination(
+                pagination.getPage(),
+                pagination.getPageNext(),
+                pagination.getPagePrev(),
+                pagination.getPageTotal(),
+                pagination.getResults(),
+                pagination.getResultsPerPage(),
+                pagination.getResultsTotal()
+        );
     }
 }
