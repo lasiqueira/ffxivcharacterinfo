@@ -7,18 +7,18 @@ import com.lasiqueira.ffxivcharacterinfo.api.dto.search.SearchResponseDTO;
 import com.lasiqueira.ffxivcharacterinfo.model.character.Character;
 import com.lasiqueira.ffxivcharacterinfo.model.search.Search;
 import com.lasiqueira.ffxivcharacterinfo.service.CharacterService;
-import io.github.benas.randombeans.EnhancedRandomBuilder;
-import io.github.benas.randombeans.api.EnhancedRandom;
+import com.lasiqueira.ffxivcharacterinfo.TestFixtures;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.cache.test.autoconfigure.AutoConfigureCache;
+import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.web.server.ResponseStatusException;
@@ -32,14 +32,15 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(CharacterController.class)
+@AutoConfigureCache
 public class CharacterControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    @MockBean
+    @MockitoBean
     private CharacterResponseDTOConverter characterResponseDTOConverter;
-    @MockBean
+    @MockitoBean
     private SearchResponseDTOConverter searchResponseDTOConverter;
-    @MockBean
+    @MockitoBean
     private CharacterService characterService;
     private CharacterResponseDTO characterResponseDTO;
     private SearchResponseDTO searchResponseDTO;
@@ -49,177 +50,136 @@ public class CharacterControllerTest {
     private static final long CHARACTER_ID = 1345l;
     @BeforeEach
     public void setup(){
-        EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandom();
-        this.character = enhancedRandom.nextObject(Character.class);
-        this.characterResponseDTO = enhancedRandom.nextObject(CharacterResponseDTO.class);
-        this.search = enhancedRandom.nextObject(Search.class);
-        this.searchResponseDTO = enhancedRandom.nextObject(SearchResponseDTO.class);
+        this.character = TestFixtures.character();
+        this.characterResponseDTO = TestFixtures.characterResponseDTO();
+        this.search = TestFixtures.search();
+        this.searchResponseDTO = TestFixtures.searchResponseDTO();
 
     }
 
     @Test
     @DisplayName("Test getting the character data")
-    public void getCharacterDataTest() throws IOException {
+    public void getCharacterDataTest() throws Exception {
         when(characterService.getCharacterData(Mockito.anyLong())).thenReturn(character);
         when(characterResponseDTOConverter.convert(character)).thenReturn(characterResponseDTO);
-        try {
-            mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
-                    .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     @DisplayName("Test getting the character data with no data found")
-    public void getCharacterDataNotFoundTest() throws IOException {
+    public void getCharacterDataNotFoundTest() throws Exception {
         when(characterService.getCharacterData(Mockito.anyLong())).thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "Character not found"));
         when(characterResponseDTOConverter.convert(character)).thenReturn(characterResponseDTO);
-        try {
-            mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
-                    .andExpect(status().isNotFound())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
+                .andExpect(status().isNotFound())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     @DisplayName("Test getting the character data with bad request")
-    public void getCharacterDataBadRequestTest() throws IOException {
+    public void getCharacterDataBadRequestTest() throws Exception {
         when(characterService.getCharacterData(Mockito.anyLong())).thenThrow(new ResponseStatusException(HttpStatus.BAD_REQUEST, "Request was invalid"));
         when(characterResponseDTOConverter.convert(character)).thenReturn(characterResponseDTO);
-        try {
-            mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
-                    .andExpect(status().isBadRequest())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     @DisplayName("Test getting the character data with internal server error")
-    public void getCharacterDataInternalServerErrorTest() throws IOException {
+    public void getCharacterDataInternalServerErrorTest() throws Exception {
         when(characterService.getCharacterData(Mockito.anyLong()))
                 .thenThrow(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"));
         when(characterResponseDTOConverter.convert(character)).thenReturn(characterResponseDTO);
-        try {
-            mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
-                    .andExpect(status().isInternalServerError())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
     @Test
     @DisplayName("Test getting the character data with IO Exception")
-    public void getCharacterDataIOExceptionTest() throws IOException {
+    public void getCharacterDataIOExceptionTest() throws Exception {
         when(characterService.getCharacterData(Mockito.anyLong())).thenThrow(new IOException());
         when(characterResponseDTOConverter.convert(character)).thenReturn(characterResponseDTO);
-        try {
-            mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
-                    .andExpect(status().isInternalServerError())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mockMvc.perform(get("/v1/character/{id}", CHARACTER_ID))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     @DisplayName("Test getting the character search")
-    public void getCharacterSearchTest() throws IOException {
+    public void getCharacterSearchTest() throws Exception {
         when(characterService.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenReturn(search);
         when(searchResponseDTOConverter.convert(search)).thenReturn(searchResponseDTO);
-        try {
-            mockMvc.perform(
-                        get("/v1/character/search")
-                        .param("name", Mockito.anyString())
-                        .param("server", Mockito.anyString())
-                        .param("page", String.valueOf(Mockito.anyInt())))
-                    .andExpect(status().isOk())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mockMvc.perform(
+                    get("/v1/character/search")
+                    .param("name", "name")
+                    .param("server", "server")
+                    .param("page", "1"))
+                .andExpect(status().isOk())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
     @Test
     @DisplayName("Test getting the character search without parameters")
-    public void getCharacterSearchNoParamsTest() throws IOException {
+    public void getCharacterSearchNoParamsTest() throws Exception {
         when(characterService.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenReturn(search);
         when(searchResponseDTOConverter.convert(search)).thenReturn(searchResponseDTO);
-        try {
-            mockMvc.perform(
-                    get("/v1/character/search"))
-                    .andExpect(status().isBadRequest())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mockMvc.perform(
+                get("/v1/character/search"))
+                .andExpect(status().isBadRequest())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     @DisplayName("Test getting the character search with not acceptable")
-    public void getCharacterSearchNotAcceptableTest() throws IOException {
+    public void getCharacterSearchNotAcceptableTest() throws Exception {
         when(characterService.getCharacterSearch(
                 Mockito.anyString(),
                 Mockito.anyString(),
                 Mockito.anyInt()))
                 .thenThrow(new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You must provide the mandatory parameter"));
         when(searchResponseDTOConverter.convert(search)).thenReturn(searchResponseDTO);
-        try {
-            mockMvc.perform(
-                    get("/v1/character/search")
-                            .param("name", Mockito.anyString())
-                            .param("server", Mockito.anyString())
-                            .param("page", String.valueOf(Mockito.anyInt())))
-                    .andExpect(status().isNotAcceptable())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mockMvc.perform(
+                get("/v1/character/search")
+                        .param("name", "name")
+                        .param("server", "server")
+                        .param("page", "1"))
+                .andExpect(status().isNotAcceptable())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
     @Test
     @DisplayName("Test getting the character search with internal server error")
-    public void getCharacterSearchInternalServerErrorTest() throws IOException {
+    public void getCharacterSearchInternalServerErrorTest() throws Exception {
         when(characterService.getCharacterSearch(
                 Mockito.anyString(),
                 Mockito.anyString(),
                 Mockito.anyInt()))
                 .thenThrow(new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, "Internal Server Error"));
         when(searchResponseDTOConverter.convert(search)).thenReturn(searchResponseDTO);
-        try {
-            mockMvc.perform(
-                    get("/v1/character/search")
-                            .param("name", Mockito.anyString())
-                            .param("server", Mockito.anyString())
-                            .param("page", String.valueOf(Mockito.anyInt())))
-                    .andExpect(status().isInternalServerError())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mockMvc.perform(
+                get("/v1/character/search")
+                        .param("name", "name")
+                        .param("server", "server")
+                        .param("page", "1"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
 
     @Test
     @DisplayName("Test getting the character search with IO Exception")
-    public void getCharacterSearchIOExceptionTest() throws IOException {
+    public void getCharacterSearchIOExceptionTest() throws Exception {
         when(characterService.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenThrow(new IOException());
         when(searchResponseDTOConverter.convert(search)).thenReturn(searchResponseDTO);
-        try {
-            mockMvc.perform(
-                    get("/v1/character/search")
-                            .param("name", Mockito.anyString())
-                            .param("server", Mockito.anyString())
-                            .param("page", String.valueOf(Mockito.anyInt())))
-                    .andExpect(status().isInternalServerError())
-                    .andExpect(content().contentType(MediaType.APPLICATION_JSON));
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        mockMvc.perform(
+                get("/v1/character/search")
+                        .param("name", "name")
+                        .param("server", "server")
+                        .param("page", "1"))
+                .andExpect(status().isInternalServerError())
+                .andExpect(content().contentType(MediaType.APPLICATION_JSON));
     }
 
 }

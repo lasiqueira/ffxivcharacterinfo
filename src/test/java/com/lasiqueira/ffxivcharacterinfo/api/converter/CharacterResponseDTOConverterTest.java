@@ -2,7 +2,7 @@ package com.lasiqueira.ffxivcharacterinfo.api.converter;
 
 import com.lasiqueira.ffxivcharacterinfo.api.dto.character.CharacterResponseDTO;
 import com.lasiqueira.ffxivcharacterinfo.model.character.Character;
-import io.github.benas.randombeans.EnhancedRandomBuilder;
+import com.lasiqueira.ffxivcharacterinfo.TestFixtures;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,7 +16,7 @@ public class CharacterResponseDTOConverterTest {
     @BeforeEach
     public void setup(){
         this.characterResponseDTOConverter = new CharacterResponseDTOConverter();
-        this.character = EnhancedRandomBuilder.aNewEnhancedRandom().nextObject(Character.class);
+        this.character = TestFixtures.character();
     }
 
     @Test

@@ -4,12 +4,11 @@ import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.client.ApiAdapt
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.client.XivApi;
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.CharacterData;
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.search.CharacterSearch;
-import io.github.benas.randombeans.EnhancedRandomBuilder;
+import com.lasiqueira.ffxivcharacterinfo.TestFixtures;
 import okhttp3.MediaType;
 import okhttp3.ResponseBody;
 import org.junit.jupiter.api.*;
 import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 import retrofit2.Call;
@@ -23,11 +22,8 @@ import static org.mockito.Mockito.when;
 public class ApiAdapterTest {
 
     private ApiAdapter apiAdapter;
-    @MockBean
     private XivApi xivApi;
-    @MockBean
     private Call<CharacterData> characterDataCall;
-    @MockBean
     private Call<CharacterSearch> characterSearchCall;
     private CharacterData characterData;
     private CharacterSearch characterSearch;
@@ -40,8 +36,8 @@ public class ApiAdapterTest {
         this.apiAdapter = new ApiAdapter(xivApi);
         this.characterDataCall = Mockito.mock(Call.class);
         this.characterSearchCall = Mockito.mock(Call.class);
-        this.characterData = EnhancedRandomBuilder.aNewEnhancedRandom().nextObject(CharacterData.class);
-        characterSearch = EnhancedRandomBuilder.aNewEnhancedRandom().nextObject(CharacterSearch.class);
+        this.characterData = TestFixtures.characterData();
+        characterSearch = TestFixtures.characterSearch();
     }
 
 
@@ -91,7 +87,7 @@ public class ApiAdapterTest {
     public void getCharacterSearchTest() throws IOException {
         when(xivApi.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenReturn(characterSearchCall);
         when(characterSearchCall.execute()).thenReturn(Response.success(characterSearch));
-        CharacterSearch response = apiAdapter.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt());
+        CharacterSearch response = apiAdapter.getCharacterSearch("name", "server", 1);
         assertNotNull(response);
     }
     @Test
@@ -100,7 +96,7 @@ public class ApiAdapterTest {
         characterSearch.setResults(new ArrayList<>());
         when(xivApi.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenReturn(characterSearchCall);
         when(characterSearchCall.execute()).thenReturn(Response.success(characterSearch));
-        CharacterSearch response = apiAdapter.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt());
+        CharacterSearch response = apiAdapter.getCharacterSearch("name", "server", 1);
         assertNotNull(response);
         assertTrue(response.getResults().isEmpty());
     }
@@ -110,7 +106,7 @@ public class ApiAdapterTest {
     public void getCharacterSearchNotAcceptableTest() throws IOException {
         when(xivApi.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenReturn(characterSearchCall);
         when(characterSearchCall.execute()).thenReturn(Response.error(HttpStatus.NOT_ACCEPTABLE.value(), ResponseBody.create(MediaType.get(org.springframework.http.MediaType.APPLICATION_JSON_VALUE), "")));
-        assertThrows(ResponseStatusException.class, () -> apiAdapter.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt()));
+        assertThrows(ResponseStatusException.class, () -> apiAdapter.getCharacterSearch("name", "server", 1));
     }
 
     @Test
@@ -118,7 +114,7 @@ public class ApiAdapterTest {
     public void getCharacterSearchInternalServerErrorTest() throws IOException {
         when(xivApi.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenReturn(characterSearchCall);
         when(characterSearchCall.execute()).thenReturn(Response.error(HttpStatus.INTERNAL_SERVER_ERROR.value(), ResponseBody.create(MediaType.get(org.springframework.http.MediaType.APPLICATION_JSON_VALUE), "")));
-        assertThrows(ResponseStatusException.class, () -> apiAdapter.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt()));
+        assertThrows(ResponseStatusException.class, () -> apiAdapter.getCharacterSearch("name", "server", 1));
     }
 
     @Test
@@ -126,7 +122,7 @@ public class ApiAdapterTest {
     public void getCharacterSearchIOExceptionTest() throws IOException {
         when(xivApi.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenReturn(characterSearchCall);
         when(characterSearchCall.execute()).thenThrow(new IOException());
-        assertThrows(IOException.class, () -> apiAdapter.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt()));
+        assertThrows(IOException.class, () -> apiAdapter.getCharacterSearch("name", "server", 1));
     }
 
 }

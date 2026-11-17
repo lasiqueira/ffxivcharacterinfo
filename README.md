@@ -1,13 +1,13 @@
 # ffxivcharacterinfo
-Java 16 Rest API using XIVAPI to fetch character data
+Java 25 / Spring Boot 4 Rest API using XIVAPI to fetch character data
 
 ## Setup
 You need: 
 
-[JDK16+](https://jdk.java.net/)
+[JDK 25+](https://adoptium.net/)
 
-[Gradle 7.0.2+](https://gradle.org/releases/) 
-(Alternatively you can use the gradle wrapper with `gradlew` instead of the `gradle` command)
+[Gradle 9.9.1+](https://gradle.org/releases/) 
+(Alternatively you can use the gradle wrapper with `./gradlew` instead of the `gradle` command)
 
 to build and run this project.
 
@@ -22,6 +22,10 @@ To run the application in a docker container, after building run the following c
 
 `gradle bootBuildImage`
 
+or, using the Dockerfile:
+
+`docker build -t ffxivcharacterinfo:0.0.1-SNAPSHOT .`
+
 
 `docker run -it -p 8080:8080 ffxivcharacterinfo:0.0.1-SNAPSHOT`
 or
@@ -29,7 +33,7 @@ or
 
 ## Documentation
 (default: http://localhost:8080)  
-server:port/swagger-ui.html
+server:port/swagger-ui.html (OpenAPI spec at server:port/v3/api-docs)
 
 ## Example
 `curl -i -H "Accept: application/json" -H "Content-Type: application/json" -X GET http://localhost:8080/v1/character/7309689`

@@ -3,7 +3,7 @@ package com.lasiqueira.ffxivcharacterinfo.service.converter;
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.character.CharacterData;
 import com.lasiqueira.ffxivcharacterinfo.model.character.Character;
 import com.lasiqueira.ffxivcharacterinfo.service.converter.CharacterConverter;
-import io.github.benas.randombeans.EnhancedRandomBuilder;
+import com.lasiqueira.ffxivcharacterinfo.TestFixtures;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,8 +17,7 @@ public class CharacterConverterTest {
     @BeforeEach
     public void setup(){
         this.characterConverter = new CharacterConverter();
-        this.characterData = EnhancedRandomBuilder.aNewEnhancedRandom().nextObject(CharacterData.class);
-        this.characterData.getCharacter().setGender(1);
+        this.characterData = TestFixtures.characterData();
     }
 
     @Test

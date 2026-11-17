@@ -7,13 +7,11 @@ import com.lasiqueira.ffxivcharacterinfo.model.character.Character;
 import com.lasiqueira.ffxivcharacterinfo.model.search.Search;
 import com.lasiqueira.ffxivcharacterinfo.service.converter.CharacterConverter;
 import com.lasiqueira.ffxivcharacterinfo.service.converter.SearchConverter;
-import io.github.benas.randombeans.EnhancedRandomBuilder;
-import io.github.benas.randombeans.api.EnhancedRandom;
+import com.lasiqueira.ffxivcharacterinfo.TestFixtures;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -25,11 +23,8 @@ import static org.mockito.Mockito.when;
 
 public class CharacterServiceTest {
     private CharacterService characterService;
-    @MockBean
     private CharacterConverter characterConverter;
-    @MockBean
     private SearchConverter searchConverter;
-    @MockBean
     private ApiAdapter apiAdapter;
     private CharacterData characterData;
     private Character character;
@@ -40,14 +35,13 @@ public class CharacterServiceTest {
 
     @BeforeEach
     public void setup(){
-        EnhancedRandom enhancedRandom = EnhancedRandomBuilder.aNewEnhancedRandom();
         characterConverter = Mockito.mock(CharacterConverter.class);
         apiAdapter = Mockito.mock(ApiAdapter.class);
-        characterData = enhancedRandom.nextObject(CharacterData.class);
-        character = enhancedRandom.nextObject(Character.class);
+        characterData = TestFixtures.characterData();
+        character = TestFixtures.character();
         searchConverter = Mockito.mock(SearchConverter.class);
-        characterSearch = enhancedRandom.nextObject(CharacterSearch.class);
-        search = enhancedRandom.nextObject(Search.class);
+        characterSearch = TestFixtures.characterSearch();
+        search = TestFixtures.search();
         characterService = new CharacterService(apiAdapter, characterConverter, searchConverter);
     }
 
@@ -80,7 +74,7 @@ public class CharacterServiceTest {
     public void getCharacterSearchTest() throws IOException {
         when(searchConverter.convert(characterSearch)).thenReturn(search);
         when(apiAdapter.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenReturn(characterSearch);
-        Search result = characterService.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt());
+        Search result = characterService.getCharacterSearch("name", "server", 1);
         assertNotNull(result);
     }
     @Test
@@ -89,7 +83,7 @@ public class CharacterServiceTest {
         when(searchConverter.convert(characterSearch)).thenReturn(search);
         when(apiAdapter.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt()))
                 .thenThrow(new ResponseStatusException(HttpStatus.NOT_ACCEPTABLE, "You must provide the mandatory parameter"));
-        assertThrows(ResponseStatusException.class, () -> characterService.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt()));
+        assertThrows(ResponseStatusException.class, () -> characterService.getCharacterSearch("name", "server", 1));
     }
 
     @Test
@@ -97,7 +91,7 @@ public class CharacterServiceTest {
     public void getCharacterSearchIOExceptionTest() throws IOException {
         when(searchConverter.convert(characterSearch)).thenReturn(search);
         when(apiAdapter.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt())).thenThrow(new IOException());
-        assertThrows(IOException.class, () -> characterService.getCharacterSearch(Mockito.anyString(), Mockito.anyString(), Mockito.anyInt()));
+        assertThrows(IOException.class, () -> characterService.getCharacterSearch("name", "server", 1));
     }
 
 }

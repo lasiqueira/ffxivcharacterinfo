@@ -4,7 +4,7 @@ import com.lasiqueira.ffxivcharacterinfo.api.dto.search.SearchResponseDTO;
 import com.lasiqueira.ffxivcharacterinfo.infrastructure.external.dto.search.CharacterSearch;
 import com.lasiqueira.ffxivcharacterinfo.model.search.Search;
 import com.lasiqueira.ffxivcharacterinfo.service.converter.SearchConverter;
-import io.github.benas.randombeans.EnhancedRandomBuilder;
+import com.lasiqueira.ffxivcharacterinfo.TestFixtures;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,7 +21,7 @@ public class SearchResponseDTOConverterTest {
     @BeforeEach
     public void setup(){
         searchResponseDTOConverter = new SearchResponseDTOConverter();
-        search = EnhancedRandomBuilder.aNewEnhancedRandom().nextObject(Search.class);
+        search = TestFixtures.search();
     }
 
     @Test
